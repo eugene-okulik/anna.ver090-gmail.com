@@ -20,7 +20,7 @@ my_dict['list'].pop(1)
 print(my_dict['list'])
 
 # Subtask 3
-my_dict['dict']['i am a tuple'] = 'added'
+my_dict['dict'][('i am a tuple',)] = 'added'
 print(my_dict['dict'])
 
 # Subtask 4
