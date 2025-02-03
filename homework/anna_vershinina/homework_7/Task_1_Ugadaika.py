@@ -7,5 +7,6 @@ def guess_the_number(correct_num):
         else:
             print('Попробуйте снова')
 
+
 number = 1
 guess_the_number(number)
