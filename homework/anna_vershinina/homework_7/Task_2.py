@@ -11,6 +11,17 @@ for i in words:
 The solution with a function and with a different key-value extraction method
 """
 
+
+def print_dict(my_dict):
+    for key, value in my_dict.items():
+        print(key * value)
+
+
+words = {'I': 3, 'love': 5, 'Python': 1, '!': 50}
+
+print_dict(words)
+
+
 def print_dict(my_dict):
     for key, value in my_dict.items():
         print(key * value)
