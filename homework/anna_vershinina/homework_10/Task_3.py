@@ -1,25 +1,38 @@
-PRICE_LIST = '''тетрадь 50р
-книга 200р
-ручка 100р
-карандаш 70р
-альбом 120р
-пенал 300р
-рюкзак 500р'''
+def additional_operation(func):
 
-""" Initial solution
-lines = PRICE_LIST.splitlines()
-print(lines)
+    def wrapper(num_1, num_2):
+        if num_1 == num_2:
+            operator = '+'
+        elif num_1 > num_2:
+            operator = '-'
+        elif num_1 < num_2:
+            operator = '/'
+        elif num_1 < 0 or num_2 < 0:
+            operator = '*'
+        else:
+            return 'Invalid arguments were passed'
+        return func(num_1, num_2, operator)
 
-items = [line.split() for line in lines]
-print(items)
+    return wrapper
 
-dict_1 = dict(items)
-print(dict_1)
-"""
 
-new_dict = {
-    key: int(value[:-1]) for key, value in (
-        line.split() for line in PRICE_LIST.splitlines()
-    )
-}
-print(new_dict)
+@additional_operation
+def calc(first, second, operator):
+    if operator == '+':
+        return f'The summ is {first + second}'
+    elif operator == '-':
+        return f'The difference is {first - second}'
+    elif operator == '/':
+        return f'The quotient is {first / second}'
+    elif operator == '*':
+        return f'The product is {first * second}'
+    else:
+        return 'Not an operator'
+
+
+num_1, num_2 = (float(input('Type the first number: ')),
+                float(input('Type the second number: ')),)
+
+
+result = calc(num_1, num_2)
+print(result)
