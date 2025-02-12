@@ -11,6 +11,7 @@ class Book:
         self.ISBN = ISBN
         self.is_reserved = is_reserved
 
+
 # The second class
 class SchoolBook(Book):
 
