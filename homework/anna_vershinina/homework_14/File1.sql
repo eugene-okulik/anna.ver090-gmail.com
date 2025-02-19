@@ -1,5 +1,5 @@
 INSERT INTO students (name, second_name, group_id)
-VALUES ('Jane', 'Smith', 129);  # 4363
+VALUES ('Jane', 'Smith', NULL);  # 4363
 
 INSERT INTO books (title, taken_by_student_id)
 VALUES ('Mobby Dick', 4363), ('Dracula', 4363);
