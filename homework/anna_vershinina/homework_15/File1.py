@@ -32,16 +32,15 @@ values_books = [
     ('Moby Dick', student_id),
     ('Dracula', student_id)
 ]
-cursor.executemany(query_insert_book, values_books)
 
-# Printing which books were created.
-cursor.execute("SELECT id FROM books WHERE taken_by_student_id = %s",
-               (student_id,))
+# Saving each created book in the list
+books_created = []
+for book in values_books:
+    cursor.execute(query_insert_book, book)
+    last_id = cursor.lastrowid
+    books_created.append(last_id)
 
-# Saving IDs of the created books and printing them.
-books_created = cursor.fetchall()
-book_1, book_2 = books_created[0]['id'], books_created[1]['id']
-print(f"The books with IDs {book_1}, {book_2} were created")
+print(f"The books with IDs {books_created} were created")
 
 # 3. Create a group.
 query_insert_groups = '''
@@ -66,20 +65,21 @@ updated_student = cursor.fetchone()
 print(f'The record of the student was updated: {updated_student}')
 
 # 5. Create new subjects.
-cursor.executemany(
-    "INSERT INTO subjets (title) VALUES (%s)",
-    [('Molecular Biology',), ('Anatomy',), ('Histology',)]
-)
+subject_list = [('Molecular Biology',), ('Anatomy',), ('Histology',)]
+request_create_new_subject = "INSERT INTO subjets (title) VALUES (%s)"
+subjects_created = []
 
-cursor.execute("SELECT id FROM subjets ORDER BY id DESC LIMIT 3")
-subjects_created = cursor.fetchall()
+for subj in subject_list:
+    cursor.execute(request_create_new_subject, subj)
+    last_id = cursor.lastrowid
+    subjects_created.append(last_id)
 
 subj_1, subj_2, subj_3 = (
-    subjects_created[0]['id'],
-    subjects_created[1]['id'],
-    subjects_created[2]['id']
+    subjects_created[0],
+    subjects_created[1],
+    subjects_created[2]
 )
-print(f"The subjects with IDs {subj_1}, {subj_2}, {subj_3} were created")
+print(f"The subjects with IDs {subjects_created} were created")
 
 # 6. Creating lessons for subjects
 cursor.executemany(
