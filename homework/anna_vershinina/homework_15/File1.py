@@ -21,7 +21,7 @@ cursor.execute(query_insert_students, values_student)
 
 # Record the student ID and print it.
 student_id = cursor.lastrowid
-print(f'The student with ID {student_id} was added')
+print(f'1. The student with ID {student_id} was added')
 
 # 2. Create books.
 query_insert_book = '''
@@ -40,7 +40,7 @@ for book in values_books:
     last_id = cursor.lastrowid
     books_created.append(last_id)
 
-print(f"The books with IDs {books_created} were created")
+print(f"2. The books with IDs {books_created} were created")
 
 # 3. Create a group.
 query_insert_groups = '''
@@ -52,7 +52,7 @@ cursor.execute(query_insert_groups, values_group)
 
 # Saving the group id and printing it.
 group_id = cursor.lastrowid
-print(f'The group with ID {group_id} was created')
+print(f'3. The group with ID {group_id} was created')
 
 # 4. Update the student's group with the created one.
 cursor.execute(
@@ -62,7 +62,8 @@ cursor.execute(
 cursor.execute("SELECT * FROM students WHERE students.id = %s",
                (student_id,))
 updated_student = cursor.fetchone()
-print(f'The record of the student was updated: {updated_student}')
+print(f'4. The record of the student was updated: {updated_student} - '
+      f'assigned to the new group {group_id}')
 
 # 5. Create new subjects.
 subject_list = [('Molecular Biology',), ('Anatomy',), ('Histology',)]
@@ -79,34 +80,37 @@ subj_1, subj_2, subj_3 = (
     subjects_created[1],
     subjects_created[2]
 )
-print(f"The subjects with IDs {subjects_created} were created")
+print(f"5. The subjects with IDs {subjects_created} were created")
 
 # 6. Creating lessons for subjects
-cursor.executemany(
-    "INSERT INTO lessons (title, subject_id) VALUES (%s, %s)",
-    [
-        ('Morning class Thursday', subj_1),
-        ('Evening class Friday', subj_1),
-        ('Morning class Monday', subj_2),
-        ('Day class Wednesday', subj_2),
-        ('Evening class Friday', subj_3),
-        ('Morning class Tuesday', subj_3),
-    ]
-)
-cursor.execute("SELECT id FROM lessons ORDER BY id DESC LIMIT 6")
-lessons = cursor.fetchall()
+lessons_request = "INSERT INTO lessons (title, subject_id) VALUES (%s, %s)"
+
+values_lessons = [
+    ('Morning class Thursday', subj_1),
+    ('Evening class Friday', subj_1),
+    ('Morning class Monday', subj_2),
+    ('Day class Wednesday', subj_2),
+    ('Evening class Friday', subj_3),
+    ('Morning class Tuesday', subj_3)
+]
+
+lessons = []
+for val in values_lessons:
+    cursor.execute(lessons_request, val)
+    last_lesson = cursor.lastrowid
+    lessons.append(last_lesson)
 
 lesson_1, lesson_2, lesson_3, lesson_4, lesson_5, lesson_6 = [
-    row['id'] for row in lessons
+    row for row in lessons
 ]
+
 print(
-    f'Lessons with IDs {lesson_1}, {lesson_2}, {lesson_3}, '
+    f'6. Lessons with IDs {lesson_1}, {lesson_2}, {lesson_3}, '
     f'{lesson_4}, {lesson_5}, {lesson_6} were created'
 )
 
 # 7. Insert marks for created lessons for the student
 # AND 8. Select all marks for the given student
-
 cursor.executemany(
     '''
     INSERT INTO marks (value, lesson_id, student_id)
@@ -126,20 +130,18 @@ cursor.execute("SELECT value FROM marks m WHERE student_id = %s",
                (student_id,))
 marks = cursor.fetchall()
 
-print(f'Student with ID {student_id} has marks {marks}')
+print(f'7-8. Student with ID {student_id} has marks {marks}')
 
 # 9. Select all the books that the given student has taken
-
 cursor.execute(
     "SELECT * FROM books WHERE taken_by_student_id = %s",
     (student_id,)
 )
 taken_books = cursor.fetchall()
-print(f'The student with id {student_id} has taken the following books: ',
+print(f'9. The student with id {student_id} has taken the following books: ',
       *taken_books, sep="\n")
 
 # 10. Select all information about the student
-
 cursor.execute('''
 SELECT * FROM students s join `groups` g
 ON s.group_id = g.id
@@ -154,7 +156,7 @@ ON s2.id = l.subject_id WHERE s.id = %s
 ''', (student_id,))
 
 student_info = cursor.fetchall()
-print(f'All information regarding the student with ID: {student_id}: ',
+print(f'10. All information regarding the student with ID: {student_id}: ',
       *student_info, sep="\n")
 
 db.commit()
