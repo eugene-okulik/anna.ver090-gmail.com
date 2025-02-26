@@ -69,7 +69,7 @@ def search_db(db, data):
 def main():
     root_dir = Path(__file__).resolve().parent.parent.parent
     file_path = (
-            root_dir / 'eugene_okulik' / 'Lesson_16' / 'hw_data' / 'data.csv'
+        root_dir / 'eugene_okulik' / 'Lesson_16' / 'hw_data' / 'data.csv'
     )
 
     data = read_csv(file_path)
