@@ -38,12 +38,12 @@ class APITest:
     def update_object(self):
         object_id = self.create_object()
         body = {
-                "data": {
-                    "color": "WHO",
-                    "size": "NEW"
-                },
-                "name": "Testing name change"
-            }
+            "data": {
+                "color": "WHO",
+                "size": "NEW"
+            },
+            "name": "Testing name change"
+        }
 
         (target_name,
          target_data) = (
@@ -57,8 +57,8 @@ class APITest:
 
         # test 1: check the record was updated
         assert (
-                response.json()['name'] == target_name and
-                response.json()['data'] == target_data
+            response.json()['name'] == target_name
+            and response.json()['data'] == target_data
         )
 
         # test 2: check the status code
