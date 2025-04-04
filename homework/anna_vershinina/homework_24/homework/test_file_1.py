@@ -74,10 +74,12 @@ def test_2(driver):
     selected_product_name = bag.text
     compare_button = driver.find_element(
         By.XPATH,
-        f'//a[contains(text(), "{
-            selected_product_name
-        }")]/ancestor::li//a[@class="action tocompare"]'
+        (
+            f'//a[contains(text(), "{selected_product_name}")]/ancestor::li'
+            '//a[@class="action tocompare"]'
+        )
     )
+
     actions = ActionChains(driver)
     actions.move_to_element(bag)
     actions.click(compare_button)
