@@ -16,7 +16,7 @@ def test_replace_iphone(page: Page):
         route.fulfill(
             response=response,
             body=modified
-            )
+        )
 
     new_text = 'яблокофон 16 про'
     page.route(
