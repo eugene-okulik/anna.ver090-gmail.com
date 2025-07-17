@@ -1,0 +1,9 @@
+/dev/null - crw-rw-rw- a character device file
+/dev/zero - crw-rw-rw- a character device file
+/dev/sda - brw-rw---- a block special file
+/dev/tty - crw-rw-rw- a character device file
+/root - drwx------ a directory
+/etc/passwd -rw-r--r-- a regular file
+/proc/mounts - -r--r--r-- a virtual file
+/bin/ls -rwxr-xr-x a regular executable  file
+/bin/zcat - -rwxr-xr-x  a regular executable  file
